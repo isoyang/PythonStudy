@@ -31,5 +31,7 @@ while i < 8:
     
     
 print 100/6
+
+print "Set Github Ready!!"
     
     
