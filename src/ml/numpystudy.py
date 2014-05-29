@@ -4,12 +4,30 @@ Created on May 22, 2014
 @author: yang
 '''
 import numpy as np
+import scipy as sp
 
 
 path = '/home/yang/Documents/research/data/seconddata_fast/0_785'
 
 
 data_array = np.loadtxt(path+'/1371211318_49',delimiter=',', unpack=False)
+
+def cal_coff(array,indicator):
+    
+    axis = indicator == 0;
+    if axis:
+        length = array.shape[1]
+    else:
+        
+        length = array.shape[0]
+        
+    for x in xrange(0,length):       
+        for y in xrange(0,length):            
+            if x != y :               
+                if axis:                    
+                    yield sp.corrcoef(array[:,x], array[:,y])
+                else:
+                    yield sp.corrcoef(array[x,:], array[y,:])
 
 data_matrix = np.matrix(data_array)
 
@@ -34,8 +52,41 @@ array_mean_t = np.transpose(array_mean)
 
 mean_matrix = np.dot(np.ones((49,1)),array_mean.reshape(1,3))
 
+def cal_feature(array,indicator,string):
+    
+    dot_array = array*array
+    if string == 'rms':
+        
+        return np.sqrt(np.sum(dot_array, axis=indicator)/array.shape[indicator])
+    elif string == 'svm':
+        
+        return np.sum(np.sqrt(np.sum(dot_array, axis=indicator)))/array.shape[1-indicator]              
 
-print mean_matrix
+
+test_array = np.array([1,2])
+print test_array.size
+array_str=np.array2string(test_array)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
