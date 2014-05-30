@@ -63,27 +63,38 @@ def cal_feature(array,indicator,string):
         return np.sum(np.sqrt(np.sum(dot_array, axis=indicator)))/array.shape[1-indicator]              
 
 
-test_array = np.array([1,2])
-print test_array.size
+test_array = np.array([[1,2],[3,4],[5,6],[0,0]])
+print test_array
 array_str=np.array2string(test_array)
 
+#  slice matrix
+
+cc = test_array[:,0]
 
 
+print np.sum(np.nonzero(cc))
+
+# normalized
+t_mean = np.mean(test_array,axis=0)
+t_std = np.std(test_array,axis=0)
 
 
+print t_mean.reshape(1,-1).shape
+print t_std
 
+mean_matrix = np.dot(np.ones((4,1)), t_mean.reshape(1,-1))
 
+std_matrix = np.dot(np.ones((4,1)),t_std.reshape(1,-1))
 
+print std_matrix
 
+normalised_data = (test_array-mean_matrix)/std_matrix
 
+print np.std(normalised_data,axis=0)
 
-
-
-
-
-
-
-
+if 0 in test_array:
+    
+    print 'TRUE'
 
 
 
